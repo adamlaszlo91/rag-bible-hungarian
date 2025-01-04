@@ -78,15 +78,15 @@ class RAG:
         file.close()
         return content
 
-    def query(self, text: str) -> list:
+    def query(self, text: str) -> str:
         response = self.qa.invoke(text)
         # Since we only care about the literal results, we use a lightweight dummy llm
-        # just to complete the RAG pipeline. The displayed answer is constructed here.
+        # just to complete the RAG pipeline. The displayed answer is actually constructed here.
         documents = response['source_documents']
-        result = 'A legjobb találatok:'
+        results = []
         for document in documents:
-            result += f'\n\n"{document.page_content}"\n{
-                document.metadata['book']} ({document.metadata['chapter']}. Fejezet)'
+            results.append(f'"{document.page_content}"\n{document.metadata['book']} ({
+                           document.metadata['chapter']}. Fejezet)')
         # If we used a normal LLM, it would be
         # return response['result']
-        return result
+        return '\n\n'.join(results)

@@ -1,15 +1,11 @@
 from rag import RAG
+from gui import GUI
 
 
 def main():
     rag = RAG()
-    while True:
-        user_input = input('Keresés: ')
-        result = rag.query(text=user_input)
-        print(result)
-        print()
-
-# TODO: Reset requirements
+    gui = GUI(rag=rag)
+    gui.mainloop()
 
 
 if __name__ == '__main__':
